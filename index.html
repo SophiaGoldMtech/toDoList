@@ -16,24 +16,40 @@
   <body>
     <div class="outer">
       <nav class="navbar bg-dark">
-        <!-- this is the top bit -->
-        <!-- navbar not needed but looks cool -->
+        <p>Listo</p>
+        <div class="icons"></div>
       </nav>
 
-      <div class="container-fluid bg-primary">
-        <div class="row">
+      <div class="container-fluid bg-success">
+        <div class="row h-100">
           <div class="col-3">
-            <!-- this is the left side of the screen-->
-            <!-- list of todo lists go here -->
-            <!-- create input and list here-->
+            <input
+              class="form-control"
+              type="text"
+              id="list-input"
+              placeholder="Enter List Name"
+            />
+            <ul class="list-group">
+              <li class="list-group-item">Cras justo odio</li>
+              <li class="list-group-item">Morbi leo risus</li>
+              <li class="list-group-item">Porta ac consectetur ac</li>
+              <li class="list-group-item">Vestibulum at eros</li>
+            </ul>
           </div>
 
           <div class="col-8">
-            <!-- this is the right side of the screen -->
-            <!-- current todo list name goes here -->
             <!-- current todo list goes here -->
-            <!-- create title and todos of currently selected list -->
             <!-- probably easiest to have the add button in this section somewhere -->
+            <h1>Name of ToDo List</h1>
+            <div class="current-list">
+              <div class="input-group">
+                <span class="input-group-text">
+                  <input class="form-check-input" type="checkbox" value="" />
+                </span>
+                <input type="text" class="form-control" />
+                <span class="input-group-text">Edit</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
