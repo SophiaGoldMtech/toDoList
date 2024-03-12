@@ -4,15 +4,27 @@ const lists = [
         name: 'Test List',
         todos: [
             {
-                text: 'firstToDo',
+                text: 'FirstToDo',
                 completed: false
             },
             {
-                text: 'secondToDo',
+                text: 'SecondToDo',
                 completed: false
             },
             {
                 text: 'ThirdToDo',
+                completed: false
+            },
+            {
+                text: 'FourthToDo',
+                completed: false
+            },
+            {
+                text: 'FifthToDo',
+                completed: false
+            },
+            {
+                text: 'SixthToDo',
                 completed: false
             },
         ]
@@ -63,7 +75,7 @@ function render() {
         </span>
         <input type="text" class="form-control" value="${todo.text}" readonly/>
         <button class="btn btn-outline-secondary bg-dark">Edit</button>
-        <button class="btn btn-outline-secondary bg-dark delete-todo-btn">
+        <button id="delete-todo-btn" class="btn btn-outline-secondary bg-dark" onclick="removeTodo(${index})">
             <i class="fa-regular fa-trash-can"></i>
         </button>
         </div>
@@ -77,54 +89,74 @@ function render() {
     document.getElementById('current-list-todos').innerHTML = todosHtml;
 }
 
-//Add functions to react to user input. Probably need - removeList, removeTodo, removeAllTodosCompleted, editToDo.
+//Add functions to react to user input. Probably need - removeAllTodosCompleted, editToDo.
 
 //Done and Working
 function addList() {
-    const newListName = document.getElementById('list-input').value;
-    if(newListName) {
-        lists.push({name: newListName,
-            todos: []})
-        }
-        render();
-        console.log(lists);
+const newListName = document.getElementById('list-input').value;
+if(newListName) {
+    lists.push({name: newListName,
+        todos: []})
     }
+    render();
+    console.log(lists);
+}
     
-    document.getElementById("add-list").addEventListener("click", addList);
+document.getElementById("add-list").addEventListener("click", addList);
     
-    function addToDo() {
-        const text = document.getElementById('todo-input-box').value;
-        if(text) {
-            lists[currentListId].todos.push({
-                text: text,
-                completed: false
-            })
-            render();
-        }
-    }
-    
-    document.getElementById("add-todo-btn").addEventListener("click", addToDo);
-    
-    function showListHandler(index) {
-        currentListId = index;
+function addToDo() {
+    const text = document.getElementById('todo-input-box').value;
+    if(text) {
+        lists[currentListId].todos.push({
+            text: text,
+            completed: false
+        })
         render();
     }
+}
+    
+document.getElementById("add-todo-btn").addEventListener("click", addToDo);
+    
+function showListHandler(index) {
+    currentListId = index;
+    render();
+}
 
-    function markTodoAsCompleted(index) {
-        let todo = lists[currentListId].todos[index]
-        todo.completed = !todo.completed
-        render();
-    }
-    //Not Done and not Working
-    
-    //need to figure out if I want a button for this or something, but probably yes a button.
-    //DON'T FORGET TO COME BACK TO THIS ONE BIG BIG DUMMY
-    function removeList() {
-        console.log('before: ', lists)
-        lists.splice(currentListId, 1);
-        currentListId = 0;
-        console.log('after: ', lists)
-        render();
-    }
+function markTodoAsCompleted(index) {
+    let todo = lists[currentListId].todos[index]
+    todo.completed = !todo.completed
+    render();
+}
 
-    document.getElementById("delete-list-btn").addEventListener("click", removeList);
+function removeList() {
+    lists.splice(currentListId, 1);
+    currentListId = 0;
+    render();
+}
+
+document.getElementById("delete-list-btn").addEventListener("click", removeList);
+
+function removeTodo(index) {
+    clickedTodo = index;
+    console.log(`ToDo at ${index} was clicked`)
+    lists[currentListId].todos.splice(clickedTodo, 1); 
+    render();
+}
+
+function removeAllTodosCompleted() {
+    for (let i = lists[currentListId].todos.length - 1; i >= 0; i--) {
+        if (lists[currentListId].todos[i].completed) {
+            lists[currentListId].todos.splice(i, 1);
+        }
+    }
+    render();
+}
+
+document.querySelector("#clear-completed-todos").addEventListener("click", removeAllTodosCompleted);
+
+
+//Not Done and not Working
+
+function editToDo() {
+    
+}

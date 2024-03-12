@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>To-Do Buddy</title>
     <script
       src="https://kit.fontawesome.com/6e9a6a92b8.js"
       crossorigin="anonymous"
@@ -35,12 +35,13 @@
           <!-- List of ToDo Lists (left side of screen) -->
           <div id="lists-list" class="col-3 py-5">
             <!-- Input for adding/searching new ToDo lists  -->
+            <h3 class="pb-2">Input name of new list below:</h3>
             <div class="input-group">
               <input
                 class="form-control"
                 type="text"
                 id="list-input"
-                placeholder="Wanna add a new list? Type the name here!"
+                placeholder="Wanna add a new list?"
               />
               <button
                 class="btn btn-outline-secondary bg-dark"
@@ -106,7 +107,12 @@
 
             <!-- End of List of ToDos -->
             <!-- End Of Current Displayed ToDo list -->
-
+            <button
+              id="clear-completed-todos"
+              class="btn btn-outline-secondary bg-dark mt-3"
+            >
+              Clear all completed todos
+            </button>
             <!-- Add New ToDo input and button -->
             <div id="add-todo">
               <div class="input-group mt-4">
@@ -123,6 +129,10 @@
                   Add
                 </button>
               </div>
+              <p class="py-2">
+                *This project is a scooter, not a porsche. Not everything works
+                100% as intended yet. Don't be a meanie*
+              </p>
             </div>
             <!-- End of add new ToDo input and button -->
             <div id="completedTodos"></div>
