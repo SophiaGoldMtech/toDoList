@@ -1,0 +1,26 @@
+body {
+  box-sizing: border-box;
+}
+
+nav > p {
+  color: white;
+  font-size: 30px;
+  margin: 0 auto;
+}
+
+#lists-list {
+  height: 100vh;
+  background-color: #e9ecef;
+}
+
+#delete-list-btn {
+  border-radius: 50%;
+  height: fit-content;
+  width: fit-content;
+  font-size: 25px;
+}
+
+.delete-todo-btn {
+  border-radius: 50%;
+  margin-left: 1em;
+}
