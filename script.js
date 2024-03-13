@@ -1,5 +1,5 @@
 //Data Structure for Lists, Current Lists, and To-dos.
-const lists = [
+const lists = getFromStorage([
     {
         name: 'Test List',
         todos: [
@@ -29,10 +29,11 @@ const lists = [
             },
         ]
     },
-]
+])
+
 
 let currentListId = 0
-    
+
 render();
 
 //functions
@@ -51,7 +52,7 @@ function render() {
     
     //print out the name of the current list
     let listName = document.getElementById('current-list-name');
-
+    
     //iterate over the todos in the current list
     let todosHtml = '<ul id="current-list-todos" class="list-group">'
     
@@ -59,11 +60,11 @@ function render() {
         todosHtml = "";
         listName.innerHTML = "";
     } else {
-    let searchValue = document.getElementById('search').value.toLowerCase();
-    listName.innerHTML = lists[currentListId].name;
-    lists[currentListId].todos.forEach((todo, index) => {
-        const displayTodo = todo.text.toLowerCase().includes(searchValue);
-        let displayValue = displayTodo ? "" : 'style="display:none"';
+        let searchValue = document.getElementById('search').value.toLowerCase();
+        listName.innerHTML = lists[currentListId].name;
+        lists[currentListId].todos.forEach((todo, index) => {
+            const displayTodo = todo.text.toLowerCase().includes(searchValue);
+            let displayValue = displayTodo ? "" : 'style="display:none"';
             todosHtml += `<li class="todo list-group-item" ${displayValue}>
             <div class="input-group">
             <span class="input-group-text">
@@ -79,106 +80,122 @@ function render() {
             <input type="text" class="form-control" value="${todo.text}" readonly/>
             <button class="btn btn-edit btn-outline-secondary bg-dark" onclick="editToDo(${index})">Edit</button>
             <button id="delete-todo-btn" class="btn btn-outline-secondary bg-dark" onclick="removeTodo(${index})">
-                <i class="fa-regular fa-trash-can"></i>
+            <i class="fa-regular fa-trash-can"></i>
             </button>
             </div>
             </li>`;
-    });}
-    
-    todosHtml += '</ul>'
-    
-    //print out the todos
-    document.getElementById('current-list-todos').innerHTML = todosHtml;
-}
+        });}
+        
+        todosHtml += '</ul>'
+        
+        //print out the todos
+        document.getElementById('current-list-todos').innerHTML = todosHtml;
 
-//Add functions to react to user input. Probably need - removeAllTodosCompleted, editToDo.
-
-//Done and Working
-function addList() {
-const newListName = document.getElementById('list-input').value;
-if(newListName) {
-    lists.push({name: newListName,
-        todos: []})
+        saveToStorage();
     }
-    render();
-}
     
-document.getElementById("add-list").addEventListener("click", addList);
+    //Add functions to react to user input. Probably need - removeAllTodosCompleted, editToDo.
     
-function addToDo() {
-    const text = document.getElementById('todo-input-box').value;
-    if(text) {
-        lists[currentListId].todos.push({
-            text: text,
-            completed: false
-        })
-        render();
-    }
-}
-    
-document.getElementById("add-todo-btn").addEventListener("click", addToDo);
-    
-function showListHandler(index) {
-    currentListId = index;
-    render();
-}
-
-function markTodoAsCompleted(index) {
-    let todo = lists[currentListId].todos[index]
-    todo.completed = !todo.completed
-    render();
-}
-
-function removeList() {
-    lists.splice(currentListId, 1);
-    currentListId = 0;
-    render();
-}
-
-document.getElementById("delete-list-btn").addEventListener("click", removeList);
-
-function removeTodo(index) {
-    clickedTodo = index;
-    console.log(`ToDo at ${index} was clicked`)
-    lists[currentListId].todos.splice(clickedTodo, 1); 
-    render();
-}
-
-function removeAllTodosCompleted() {
-    for (let i = lists[currentListId].todos.length - 1; i >= 0; i--) {
-        if (lists[currentListId].todos[i].completed) {
-            lists[currentListId].todos.splice(i, 1);
+    //Done and Working
+    function addList() {
+        const newListName = document.getElementById('list-input').value;
+        if(newListName) {
+            lists.push({name: newListName,
+                todos: []})
+            }
+            render();
         }
-    }
-    render();
-}
+        
+        document.getElementById("add-list").addEventListener("click", addList);
+        
+        function addToDo() {
+            const text = document.getElementById('todo-input-box').value;
+            if(text) {
+                lists[currentListId].todos.push({
+                    text: text,
+                    completed: false
+                })
+                render();
+            }
+        }
+        
+        document.getElementById("add-todo-btn").addEventListener("click", addToDo);
+        
+        function showListHandler(index) {
+            currentListId = index;
+            render();
+        }
+        
+        function markTodoAsCompleted(index) {
+            let todo = lists[currentListId].todos[index]
+            todo.completed = !todo.completed
+            render();
+        }
+        
+        function removeList() {
+            lists.splice(currentListId, 1);
+            currentListId = 0;
+            render();
+        }
+        
+        document.getElementById("delete-list-btn").addEventListener("click", removeList);
+        
+        function removeTodo(index) {
+            clickedTodo = index;
+            console.log(`ToDo at ${index} was clicked`)
+            lists[currentListId].todos.splice(clickedTodo, 1); 
+            render();
+        }
+        
+        function removeAllTodosCompleted() {
+            for (let i = lists[currentListId].todos.length - 1; i >= 0; i--) {
+                if (lists[currentListId].todos[i].completed) {
+                    lists[currentListId].todos.splice(i, 1);
+                }
+            }
+            render();
+        }
+        
+        document.querySelector("#clear-completed-todos").addEventListener("click", removeAllTodosCompleted);
+        
+        function editToDo(index) {
+            const inputField = document.querySelectorAll('.todo .form-control')[index];
+            const editButton = document.querySelectorAll('.todo .btn-edit')[index];
+            
+            if (editButton.textContent === "Edit") {
+                inputField.removeAttribute('readonly');
+                editButton.textContent = "Submit";
+            } else {
+                lists[currentListId].todos[index].text = inputField.value;
+                inputField.setAttribute('readonly', true);
+                editButton.textContent = "Edit"
+            }
+        }
+        
+        document.getElementById('darkModeToggle').addEventListener('click', function() {
+            document.getElementById('right-screen').classList.toggle('dark-mode');
+            document.getElementById('left-screen').classList.toggle('left-dark-mode');
+            document.getElementById('navbar').classList.toggle('nav-dark-mode');
+        });
+        
+        function search() {
+            render();
+        }
+        
+        document.getElementById("search").addEventListener("input", search);
+        
+        //Not Done and not Working
+        
+        function saveToStorage() {
+            let listsJson = JSON.stringify(lists);
+            localStorage.setItem("lists", listsJson);
+            
+        }
 
-document.querySelector("#clear-completed-todos").addEventListener("click", removeAllTodosCompleted);
-
-function editToDo(index) {
-    const inputField = document.querySelectorAll('.todo .form-control')[index];
-    const editButton = document.querySelectorAll('.todo .btn-edit')[index];
-
-    if (editButton.textContent === "Edit") {
-    inputField.removeAttribute('readonly');
-    editButton.textContent = "Submit";
-    } else {
-        lists[currentListId].todos[index].text = inputField.value;
-        inputField.setAttribute('readonly', true);
-        editButton.textContent = "Edit"
-    }
-}
-
-document.getElementById('darkModeToggle').addEventListener('click', function() {
-    document.getElementById('right-screen').classList.toggle('dark-mode');
-    document.getElementById('left-screen').classList.toggle('left-dark-mode');
-    document.getElementById('navbar').classList.toggle('nav-dark-mode');
-  });
-
-//Not Done and not Working
-
-function search() {
-    render();
-}
-
-document.getElementById("search").addEventListener("input", search);
+        function getFromStorage(deflt) {
+            let storedLists = localStorage.getItem("lists");
+            if (!storedLists) {
+                return deflt;
+            }
+            return JSON.parse(storedLists);
+        }
