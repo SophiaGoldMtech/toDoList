@@ -59,28 +59,30 @@ function render() {
         todosHtml = "";
         listName.innerHTML = "";
     } else {
+    let searchValue = document.getElementById('search').value.toLowerCase();
     listName.innerHTML = lists[currentListId].name;
     lists[currentListId].todos.forEach((todo, index) => {
-        todosHtml += `<li class="todo list-group-item">
-        <div class="input-group">
-        <span class="input-group-text">
-        <div class="form-check d-flex justify-content-center align-items-center">
-        <input
-        class="form-check-input"
-        type="checkbox"
-        onchange="markTodoAsCompleted(${index})"
-        ${todo.completed ? "checked": ""}
-        />
-        </div>
-        </span>
-        <input type="text" class="form-control" value="${todo.text}" readonly/>
-        <button class="btn btn-outline-secondary bg-dark">Edit</button>
-        <button id="delete-todo-btn" class="btn btn-outline-secondary bg-dark" onclick="removeTodo(${index})">
-            <i class="fa-regular fa-trash-can"></i>
-        </button>
-        </div>
-        </li>`;
-        
+        const displayTodo = todo.text.toLowerCase().includes(searchValue);
+        let displayValue = displayTodo ? "" : 'style="display:none"';
+            todosHtml += `<li class="todo list-group-item" ${displayValue}>
+            <div class="input-group">
+            <span class="input-group-text">
+            <div class="form-check d-flex justify-content-center align-items-center">
+            <input
+            class="form-check-input"
+            type="checkbox"
+            onchange="markTodoAsCompleted(${index})"
+            ${todo.completed ? "checked": ""}
+            />
+            </div>
+            </span>
+            <input type="text" class="form-control" value="${todo.text}" readonly/>
+            <button class="btn btn-edit btn-outline-secondary bg-dark" onclick="editToDo(${index})">Edit</button>
+            <button id="delete-todo-btn" class="btn btn-outline-secondary bg-dark" onclick="removeTodo(${index})">
+                <i class="fa-regular fa-trash-can"></i>
+            </button>
+            </div>
+            </li>`;
     });}
     
     todosHtml += '</ul>'
@@ -99,7 +101,6 @@ if(newListName) {
         todos: []})
     }
     render();
-    console.log(lists);
 }
     
 document.getElementById("add-list").addEventListener("click", addList);
@@ -154,9 +155,30 @@ function removeAllTodosCompleted() {
 
 document.querySelector("#clear-completed-todos").addEventListener("click", removeAllTodosCompleted);
 
+function editToDo(index) {
+    const inputField = document.querySelectorAll('.todo .form-control')[index];
+    const editButton = document.querySelectorAll('.todo .btn-edit')[index];
+
+    if (editButton.textContent === "Edit") {
+    inputField.removeAttribute('readonly');
+    editButton.textContent = "Submit";
+    } else {
+        lists[currentListId].todos[index].text = inputField.value;
+        inputField.setAttribute('readonly', true);
+        editButton.textContent = "Edit"
+    }
+}
+
+document.getElementById('darkModeToggle').addEventListener('click', function() {
+    document.getElementById('right-screen').classList.toggle('dark-mode');
+    document.getElementById('left-screen').classList.toggle('left-dark-mode');
+    document.getElementById('navbar').classList.toggle('nav-dark-mode');
+  });
 
 //Not Done and not Working
 
-function editToDo() {
-    
+function search() {
+    render();
 }
+
+document.getElementById("search").addEventListener("input", search);

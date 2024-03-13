@@ -1,14 +1,15 @@
 body {
   box-sizing: border-box;
+  transition: background-color 0.5s ease;
 }
 
-nav > p {
+.navbar > p {
   color: white;
   font-size: 30px;
   margin: 0 auto;
 }
 
-#lists-list {
+#left-screen {
   height: 100vh;
   background-color: #e9ecef;
 }
@@ -23,4 +24,25 @@ nav > p {
 .delete-todo-btn {
   border-radius: 50%;
   margin-left: 1em;
+}
+
+.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.nav-dark-mode {
+  background-color: white !important;
+}
+
+.nav-dark-mode > p {
+  color: black !important;
+}
+
+.left-dark-mode {
+  background-color: #232323 !important;
+}
+
+.left-dark-mode > h3 {
+  color: #fff;
 }

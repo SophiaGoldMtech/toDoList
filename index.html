@@ -20,7 +20,7 @@
   <body>
     <div class="outer">
       <!-- NavBar -->
-      <nav class="navbar bg-dark">
+      <nav id="navbar" class="navbar bg-dark">
         <p>
           Welcome to your organizational buddy! Feel free to delete our provided
           test list!
@@ -33,7 +33,7 @@
       <div class="container-fluid">
         <div class="row h-100">
           <!-- List of ToDo Lists (left side of screen) -->
-          <div id="lists-list" class="col-3 py-5">
+          <div id="left-screen" class="col-3 py-5">
             <!-- Input for adding/searching new ToDo lists  -->
             <h3 class="pb-2">Input name of new list below:</h3>
             <div class="input-group">
@@ -58,11 +58,20 @@
               <!-- Container for lists -->
             </div>
             <!-- End of actual List of ToDo Lists -->
+            <div class="my-5">
+              <h3>Looking for something? Search your to-dos here:</h3>
+              <input
+                id="search"
+                type="text"
+                class="search form-control"
+                placeholder="Search your lists here!"
+              />
+            </div>
           </div>
           <!-- End of Lists of ToDo lists (left side of screen)-->
 
           <!-- Current ToDo List (right side of screen) -->
-          <div class="col-8 py-5">
+          <div id="right-screen" class="col-9 py-5 px-4">
             <!-- Current Displayed ToDo list -->
             <div class="container-fluid d-flex justify-content-between">
               <h1 id="current-list-name" class="py-2"></h1>
@@ -107,12 +116,20 @@
 
             <!-- End of List of ToDos -->
             <!-- End Of Current Displayed ToDo list -->
-            <button
-              id="clear-completed-todos"
-              class="btn btn-outline-secondary bg-dark mt-3"
-            >
-              Clear all completed todos
-            </button>
+            <div class="container-fluid mt-3">
+              <button
+                id="clear-completed-todos"
+                class="btn btn-outline-secondary bg-dark"
+              >
+                Clear all completed to-dos
+              </button>
+              <button
+                id="darkModeToggle"
+                class="btn btn-outline-secondary bg-dark"
+              >
+                Toggle Dark Mode
+              </button>
+            </div>
             <!-- Add New ToDo input and button -->
             <div id="add-todo">
               <div class="input-group mt-4">
@@ -129,10 +146,6 @@
                   Add
                 </button>
               </div>
-              <p class="py-2">
-                *This project is a scooter, not a porsche. Not everything works
-                100% as intended yet. Don't be a meanie*
-              </p>
             </div>
             <!-- End of add new ToDo input and button -->
             <div id="completedTodos"></div>
